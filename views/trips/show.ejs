@@ -1,0 +1,30 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <img src="<%= trip.image %>" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><%= trip.place %></h5>
+              <p class="card-text"><%= trip.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item text-muted"><%= trip.location %></li>
+              <li class="list-group-item text-muted">
+                  <i>lat: </i><%= trip.latitude %>,
+                  <i>long: </i><%= trip.longitude %>
+             </li>
+            </ul>
+            <div class="card-body d-flex">
+              <a class="card-link btn btn-secondary me-3" href="/trips/<%= trip._id %>/edit">Edit</a>
+              <form action="/trips/<%= trip._id %>?_method=DELETE" method="POST">
+                <button class="card-link btn btn-secondary">Delete</button>
+              </form>
+            </div>
+          </div>
+          <footer class="mb-3">
+            <a href="/trips">All Trips</a>
+        </footer>
+    </div>
+</div>
+  
