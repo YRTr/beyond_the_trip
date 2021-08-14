@@ -3,11 +3,16 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
-const trips = require('./routes/trips');
-const reviews = require('./routes/reviews');
+const tripsRoutes = require('./routes/trips');
+const reviewsRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/users')
 
 mongoose.connect('mongodb+srv://yrtravi:yrtravi@travel0.yaw7e.mongodb.net/beyond-the-trip?retryWrites=true&w=majority', {
     useNewUrlParser: true,
@@ -35,18 +40,32 @@ app.use(express.static(path.join(__dirname, 'public')));
 const sessionConfig = {
     secret: 'notabettersecret',
     resave: false,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    }
+    saveUninitialized: false,
 }
 app.use(session(sessionConfig))
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 
-app.use('/trips', trips);
-app.use('/trips/:id/reviews', reviews);
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+app.use(flash());
+app.use((req, res, next) => {
+    //console.log(req.session);
+    console.log(req.user);
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
+
+app.use('/', userRoutes);
+app.use('/trips', tripsRoutes);
+app.use('/trips/:id/reviews', reviewsRoutes);
 
 
 app.get('/', (req, res) => {

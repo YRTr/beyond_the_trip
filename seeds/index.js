@@ -18,12 +18,11 @@ const seedDB = async () => {
     await Trip.deleteMany();
     for(let i=0; i<places.length; i++){
         let t = new Trip({
+            author: '6114c92d634ad46498dd84c5',
             place: `${places[i].place}`,
             image: 'https://source.unsplash.com/collection/2170690',
-            latitude: `${places[i].latitude}`,
-            longitude: `${places[i].longitude}`,
             description: `${places[i].description}`,
-            location: `${places[i].location}`
+            location: `${places[i].location}`,
         })
         await t.save();
     }

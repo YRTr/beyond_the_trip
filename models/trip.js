@@ -5,10 +5,12 @@ const Schema = mongoose.Schema;
 const TripSchema = new Schema({
     place: String,
     image: String,
-    latitude: Number,
-    longitude: Number,
     description: String,
     location: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,
