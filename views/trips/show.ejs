@@ -2,14 +2,38 @@
 
 <div class="row">
     <div class="col-6">
+      <div id="tripCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <% if (trip.images.length === 0) { %>
+            <img class="img-fluid" alt="" src="https://cdn.dribbble.com/users/2376224/screenshots/4761564/gallery_app_icon.gif">
+          <% } else { %>
+            <% trip.images.forEach((img, i) => { %>
+              <div class="carousel-item <%= i === 0 ? 'active' : ''%>" data-bs-interval="10000">
+                <img src="<%= img.url %>" class="d-block w-100 card-img-top" alt="...">
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+        <% if(trip.images.length > 1) { %>
+        <button class="carousel-control-prev" type="button" data-bs-target="#tripCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#tripCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+        <% } %>
+      </div>
         <div class="card">
-            <img src="<%= trip.image %>" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title"><%= trip.place %></h5>
-              <p class="card-text"><%= trip.description %></p>
+              <p class="card-text text-muted"><%= trip.location %>, 
+                <span style="font-weight: bold; text-transform: capitalize;"><%= trip.country %></span>
+              </p>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item text-muted"><%= trip.location %></li>
+              <li class="list-group-item"><%= trip.description %></li>
               <li class="list-group-item">posted by <strong><%= trip.author.username %></strong></li>
             </ul>
             <% if(currentUser && trip.author.equals(currentUser._id)){ %>
@@ -26,6 +50,7 @@
           </div>
     </div>
     <div class="col-6">
+      <div class="mb-5" id='map' style='width: 576px; height: 320px;'></div>
       <div  class="mb-3">
         <% if(currentUser) { %>
         <h3>Leave a comment</h3>
@@ -53,4 +78,10 @@
       </div> 
     </div> 
 </div>
-  
+
+<script>
+  const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+  const trip = <%- JSON.stringify(trip) %>;
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>

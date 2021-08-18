@@ -2,62 +2,25 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
-const Trip = require('../models/trip');
+const trips = require('../controllers/trips');
 const {isLoggedIn, validateTrip, isAuthor} = require('../middleware');
+const multer = require('multer');
+const {storage} = require('../cloudinary');
+const upload = multer({ storage });
 
+router.route('/')
+        .get(catchAsync(trips.index))
+        .post(isLoggedIn, upload.array('image'), validateTrip, catchAsync(trips.createTrip));
 
-router.get('/', catchAsync(async (req, res) => {
-    const trips = await Trip.find({});
-    res.render('trips/index', { trips });
-}));
+router.get('/new', isLoggedIn, trips.renderNewForm);
 
-router.get('/new', isLoggedIn, (req, res) => {
-    res.render('trips/new');
-});
+router.route('/:id')
+        .get(catchAsync(trips.showTrip))
+        .put(isLoggedIn, isAuthor, upload.array('image'), validateTrip, catchAsync(trips.updateTrip))
+        .delete(isLoggedIn, isAuthor, catchAsync(trips.deleteTrip))
+        
 
-router.post('/', isLoggedIn, validateTrip, catchAsync(async (req, res, next) => {
-    const trip = new Trip(req.body.trip);
-    trip.author = req.user._id;
-    await trip.save();
-    req.flash('success', 'Successfully added to your bucket-list');
-    res.redirect(`/trips/${trip._id}`)
-}));
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(trips.renderEditForm));
 
-router.get('/:id', catchAsync(async (req, res) => {
-    const trip = await Trip.findById(req.params.id).populate({
-        path:'reviews',
-        populate: { path: 'author' }
-    }).populate('author');
-    console.log(trip);
-    if(!trip){
-        req.flash('error', 'Cannot find that trip')
-        return res.redirect('/trips');
-    }
-    res.render('trips/show', { trip });
-}));
-
-router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    const {id} = req.params;
-    const trip = await Trip.findById(id);
-    if(!trip){
-        req.flash('error', 'Cannot find that trip')
-        return res.redirect('/trips');
-    }
-    res.render('trips/edit', { trip });
-}));
-
-router.put('/:id', isLoggedIn, isAuthor, validateTrip, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const trip = await Trip.findByIdAndUpdate(id, {...req.body.trip }, {new: true});
-    req.flash('success', 'Updated successfully');
-    res.redirect(`/trips/${trip._id}`)
-}));
-
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Trip.findByIdAndDelete(id);
-    req.flash('success', 'Trip deleted successfully');
-    res.redirect('/trips');
-}));
 
 module.exports = router;

@@ -1,3 +1,9 @@
+if(process.env.NODE_ENV !== "production"){
+    require('dotenv').config();
+}
+
+console.log(process.env.CLOUDINARY_CLOUD_NAME);
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -9,12 +15,16 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const dbUrl = process.env.DB_URL;
+const secret = process.env.SECRET || 'notabettersecret';
+const MongoStore = require('connect-mongo');
 
 const tripsRoutes = require('./routes/trips');
 const reviewsRoutes = require('./routes/reviews');
-const userRoutes = require('./routes/users')
+const userRoutes = require('./routes/users');
 
-mongoose.connect('mongodb+srv://yrtravi:yrtravi@travel0.yaw7e.mongodb.net/beyond-the-trip?retryWrites=true&w=majority', {
+
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -37,12 +47,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const sessionConfig = {
-    secret: 'notabettersecret',
-    resave: false,
-    saveUninitialized: false,
-}
-app.use(session(sessionConfig))
+
+app.use(
+    session({
+      store: MongoStore.create({ mongoUrl: dbUrl }),
+      secret,
+      touchAfter: 24 * 60 * 60,
+      resave: false,
+      saveUninitialized: true,
+      cookies: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+        }
+    })
+);
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -55,7 +75,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(flash());
 app.use((req, res, next) => {
     //console.log(req.session);
-    console.log(req.user);
+    //console.log(req.user);
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');

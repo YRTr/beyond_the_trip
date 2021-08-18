@@ -4,7 +4,7 @@
     <div class="row">
         <h2 class="text-center">New Trip</h2>
         <div class="col-6 offset-3">
-            <form action="/trips" method="POST" class="validated-form" novalidate>
+            <form action="/trips" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label" for="place">Place</label>
                     <input class="form-control" type="text" id="place" name="trip[place]" required>
@@ -14,13 +14,22 @@
                     <input class="form-control" type="text" id="location" name="trip[location]" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="image">Image</label>
-                    <input class="form-control" type="text" id="image" name="trip[image]" required>
-                </div>
+                    <label class="form-label" for="country">Country</label>
+                    <input class="form-control" type="text" id="country" name="trip[country]" required>
+                </div>         
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
                     <textarea class="form-control" type="text" id="description" name="trip[description]" required></textarea>
                 </div>
+                <div class="mb-3">
+                    <label for="">Images</label>
+                    <div class="input-group custom-file">
+                        <input class="form-control" id="image" type="file" name="image" multiple>
+                        <label for="image" class="input-group-text">
+                            <span class="custom-file-label"><i class="fas fa-angle-double-up"></i></span>    
+                        </label>
+                    </div>
+                </div>     
                 <div class="mb-3">
                     <button class="btn btn-success">Add</button>
                 </div>

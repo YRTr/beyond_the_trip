@@ -1,20 +1,86 @@
-<% layout('layouts/boilerplate') %>
-<h1>Register</h1>
-<form autocomplete="off" action="/register" method="POST" class="validated-form" novalidate>
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required>
-        <div class="valid-feedback">
-            Looks good!
-        </div>
-    </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required>
-    </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <button class="btn btn-success">Register</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Register</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/6a43b8e223.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register/vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register/vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register/vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register/vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register/css/main.css">
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+	<%- include('../partials/navbar') %>
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('https://images.unsplash.com/photo-1590401884554-7b896e6db582?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1366&q=80');">
+			<div class="wrap-login100">
+				<%- include('../partials/flash') %>
+				<form action="/register" method="POST" class="login100-form validate-form" novalidate>
+					<span class="login100-form-logo">
+						<i class="zmdi zmdi-landscape"></i>
+					</span>
+					<span class="login100-form-title p-b-34 p-t-27 text-capitalize">
+						Welcome to the site
+					</span>
+					<div class="wrap-input100 validate-input" data-validate = "Enter username">
+						<input class="input100" type="text" name="username" placeholder="Username" required>
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
+
+                    <div class="wrap-input100 validate-input" data-validate = "Enter email">
+						<input class="input100" type="text" name="email" placeholder="Email" required>
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password" name="password" placeholder="Password" required>
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					</div>
+					<div class="contact100-form-checkbox">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100" for="ckb1">
+							Remember me
+						</label>
+					</div>
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Register
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	<%- include('../partials/footer') %>
+	
+	<script src="/stylesheets/register/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="/stylesheets/register/vendor/animsition/js/animsition.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+	<script src="/stylesheets/register/vendor/select2/select2.min.js"></script>
+	<script src="/stylesheets/register/vendor/daterangepicker/moment.min.js"></script>
+	<script src="/stylesheets/register/vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="/stylesheets/register/vendor/countdowntime/countdowntime.js"></script>
+	<script src="/stylesheets/register/js/main.js"></script>
+
+    <script src="/javascripts/validateForms.js"></script>
+</body>
+</html>
+
+
+
+

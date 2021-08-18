@@ -20,9 +20,18 @@ const seedDB = async () => {
         let t = new Trip({
             author: '6114c92d634ad46498dd84c5',
             place: `${places[i].place}`,
-            image: 'https://source.unsplash.com/collection/2170690',
             description: `${places[i].description}`,
             location: `${places[i].location}`,
+            images: [
+                  {
+                    url: 'https://res.cloudinary.com/yrtr/image/upload/v1629050587/BeyondTheTrip/yl5ohxu9quz4qzyr2pc9.jpg',
+                    filename: 'BeyondTheTrip/yl5ohxu9quz4qzyr2pc9'
+                  },
+                  {
+                    url: 'https://res.cloudinary.com/yrtr/image/upload/v1629050588/BeyondTheTrip/tonjphm6alccutfiqlzd.jpg',
+                    filename: 'BeyondTheTrip/tonjphm6alccutfiqlzd'
+                  }
+            ]
         })
         await t.save();
     }
@@ -30,4 +39,4 @@ const seedDB = async () => {
 
 seedDB().then(() => {
     mongoose.connection.close();
-})
+});
