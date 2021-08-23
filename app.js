@@ -18,6 +18,7 @@ const User = require('./models/user');
 const dbUrl = process.env.DB_URL;
 const secret = process.env.SECRET || 'notabettersecret';
 const MongoStore = require('connect-mongo');
+const cookieParser = require('cookie-parser');
 
 const tripsRoutes = require('./routes/trips');
 const reviewsRoutes = require('./routes/reviews');
@@ -46,6 +47,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+//for google auth
+app.use(express.json());
+app.use(cookieParser());
 
 
 app.use(
@@ -102,7 +107,7 @@ app.use((err, req, res, next) => {
     res.status( statusCode ).render('error', {err}); 
 })
 
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
     console.log(`Serving on port ${port}`);

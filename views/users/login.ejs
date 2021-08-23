@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V3</title>
+	<title>Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/6a43b8e223.js" crossorigin="anonymous"></script>
+
 	<link rel="stylesheet" type="text/css" href="/stylesheets/login/fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/login/vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/login/vendor/css-hamburgers/hamburgers.min.css">
@@ -16,6 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="/stylesheets/login/vendor/daterangepicker/daterangepicker.css">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/login/css/main.css">
+
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css' rel='stylesheet' />
@@ -54,6 +56,35 @@
 						</button>
 					</div>
 				</form>
+				<p class="text-white my-3 text-center">OR</p>
+				<!--Google login-->
+				<div class="mx-5 w-60">
+					<div id="g_id_onload"
+     					data-client_id="695028446885-f66s9gg1mk26utdsq0rkhasbm83rdhp5.apps.googleusercontent.com"
+     					data-login_uri="http://localhost:5000/login"
+						data-auto_select="true"
+						data-context="signin"
+						data-prompt_parent_id="g_id_onload"
+     					style="position: absolute; top: 100px; right: 30px;
+            			width: 0; height: 0; z-index: 1001;"
+						data-cancel_on_tap_outside="false"
+     					data-your_own_param_1_to_login="any_value"
+     					data-your_own_param_2_to_login="any_value">
+					</div>
+					<div class="g_id_signin"
+     					data-type="standard"
+     					data-size="large"
+     					data-theme="outline"
+     					data-text="sign_in_with"
+     					data-shape="rectangular"
+     					data-logo_alignment="left">
+					</div>
+				</div>
+				<!--Facebook login-->
+				<div id="fb-root"></div>
+				<div class="mx-5 mt-2 w-20">
+					<div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -61,7 +92,11 @@
 
 	<div id="dropDownSelect1"></div>
 	<%- include('../partials/footer') %>
+
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v11.0&appId=387761356219755&autoLogAppEvents=1" nonce="eDJCtWED"></script>
 	
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 	<script src="/stylesheets/login/vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="/stylesheets/login/vendor/animsition/js/animsition.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
@@ -73,5 +108,28 @@
 	<script src="/stylesheets/login/js/main.js"></script>
 
     <script src="/javascripts/validateForms.js"></script>
+		
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '387761356219755',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v11.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+}
 </body>
 </html>
